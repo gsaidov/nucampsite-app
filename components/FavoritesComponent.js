@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, View, Text, StyleSheet } from "react-native";
+import { FlatList, View, Text, StyleSheet, Alert } from "react-native";
 import { ListItem } from "react-native-elements";
 import { connect } from "react-redux";
 import { Loading } from "./LoadingComponent";
@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDistpatchToProps = {
+const mapDispatchToProps = {
   deleteFavorite: (campsiteId) => deleteFavorite(campsiteId),
 };
 
@@ -32,11 +32,31 @@ class Favorites extends React.Component {
           <View style={styles.deleteView}>
             <TouchableOpacity
               style={styles.deleteTouchable}
-              onPress={() => this.props.deleteFavorite(item.id)}
+              onPress={() =>
+                Alert.alert(
+                  "Delete Favorite?",
+                  "Are you sure you wish to delete the favorite campsite " +
+                    item.name +
+                    "?",
+                  [
+                    {
+                      text: "Cancel",
+                      onPress: () => console.log(item.name + "Not Deleted"),
+                      style: "cancel",
+                    },
+                    {
+                      text: "OK",
+                      onPress: () => this.props.deleteFavorite(item.id),
+                    },
+                  ],
+                  { cancelable: false }
+                )
+              }
             >
               <Text style={styles.deleteText}>Delete</Text>
             </TouchableOpacity>
           </View>
+
           <View>
             <ListItem
               title={item.name}
@@ -93,4 +113,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps, mapDistpatchToProps)(Favorites);
+export default connect(mapStateToProps, mapDispatchToProps)(Favorites);
