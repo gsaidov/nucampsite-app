@@ -12,7 +12,7 @@ import storage from "redux-persist/es/storage";
 const config = {
   key: "root",
   storage,
-  debug: true,
+  // debug: true,
 };
 
 export const ConfigureStore = () => {
@@ -24,7 +24,7 @@ export const ConfigureStore = () => {
       promotions,
       favorites,
     }),
-    applyMiddleware(thunk, logger)
+    applyMiddleware(thunk)
   );
 
   const persistor = persistStore(store);

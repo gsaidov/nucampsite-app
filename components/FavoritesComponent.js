@@ -29,7 +29,11 @@ class Favorites extends React.Component {
     const { navigate } = this.props.navigation;
     const renderFavoriteItem = ({ item }) => {
       return (
-        <SwipeRow rightOpenValue={-100} style={styles.swipeRow}>
+        <SwipeRow
+          rightOpenValue={-100}
+          style={styles.swipeRow}
+          ref={(ref) => (this.swipeRowRef = ref)}
+        >
           <View style={styles.deleteView}>
             <TouchableOpacity
               style={styles.deleteTouchable}
@@ -42,7 +46,10 @@ class Favorites extends React.Component {
                   [
                     {
                       text: "Cancel",
-                      onPress: () => console.log(item.name + "Not Deleted"),
+                      onPress: () => {
+                        this.swipeRowRef.closeRow();
+                        console.log(item.name + "Not Deleted");
+                      },
                       style: "cancel",
                     },
                     {
